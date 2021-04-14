@@ -58,7 +58,8 @@ int main (int argc, char **argv) {
         printf("Error: %s\n", c->errstr);
         return 1;
     }
- 
+
+    printf("main Connect...");
     struct event_base *base = event_base_new();
     redisLibeventAttach(c,base);
     redisAsyncSetConnectCallback(c,connectCallback);
