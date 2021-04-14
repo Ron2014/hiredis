@@ -23,6 +23,9 @@ FIND_PATH(LIBEVENT event.h)
 if (LIBEVENT)
     ADD_EXECUTABLE(example-libevent example-libevent)
     TARGET_LINK_LIBRARIES(example-libevent hiredis event)
+
+    ADD_EXECUTABLE(example-libevent-sub example-libevent-sub)
+    TARGET_LINK_LIBRARIES(example-libevent-sub hiredis event)
 ENDIF()
 
 FIND_PATH(LIBUV uv.h)
