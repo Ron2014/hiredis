@@ -11,6 +11,8 @@
 #include <hiredis.h>
 #include <async.h>
 #include <adapters/libevent.h>
+
+#define CMD_SIZE 128
  
 void subCallback(redisAsyncContext *c, void *r, void *priv) {
     redisReply *reply = r;
@@ -43,8 +45,13 @@ void disconnectCallback(const redisAsyncContext *c, int status) {
  
 int main (int argc, char **argv) {
     signal(SIGPIPE, SIG_IGN);
-    struct event_base *base = event_base_new();
- 
+
+    if (argc <= 1)
+    {
+        printf("usage: proc key1 key2 ...\n")
+        return 1;
+    }
+
     redisAsyncContext *c = redisAsyncConnect("127.0.0.1", 6379);
     if (c->err) {
         /* Let *c leak for now... */
@@ -52,10 +59,18 @@ int main (int argc, char **argv) {
         return 1;
     }
  
+    struct event_base *base = event_base_new();
     redisLibeventAttach(c,base);
     redisAsyncSetConnectCallback(c,connectCallback);
     redisAsyncSetDisconnectCallback(c,disconnectCallback);
-    redisAsyncCommand(c, subCallback, (char*) "sub", "SUBSCRIBE foo");
+
+    char cmd[CMD_SIZE] = {0};
+    int count = argc;
+    while(count-->1)
+    {
+        snprintf(cmd, CMD_SIZE, "SUBSCRIBE %s", argv[argc-count]);
+        redisAsyncCommand(c, subCallback, (char *)"sub", cmd);
+    }
  
     event_base_dispatch(base);
     return 0;
