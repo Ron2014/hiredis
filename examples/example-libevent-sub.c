@@ -73,8 +73,17 @@ int main (int argc, char **argv) {
         redisAsyncCommand(c, subCallback, (char *)"sub", cmd);
         printf("%s\n", cmd);
     }
- 
-    event_base_dispatch(base);
+
+    while(1)
+    { 
+    //event_base_dispatch(base);
+    //event_base_loop(base, EVLOOP_NO_EXIT_ON_EMPTY);
+    printf("start recv...\n");
+    event_base_loop(base, EVLOOP_NONBLOCK);
+    printf("end recv...\n");
+    //event_base_loop(base, EVLOOP_ONCE);
+    sleep(5);
+    }
     printf("HELLO WORLD\n");
 
     return 0;
