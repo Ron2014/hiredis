@@ -59,7 +59,7 @@ int main (int argc, char **argv) {
         return 1;
     }
 
-    printf("main Connect...");
+    printf("main Connect...\n");
     struct event_base *base = event_base_new();
     redisLibeventAttach(c,base);
     redisAsyncSetConnectCallback(c,connectCallback);
@@ -71,6 +71,7 @@ int main (int argc, char **argv) {
     {
         snprintf(cmd, CMD_SIZE, "SUBSCRIBE %s", argv[argc-count]);
         redisAsyncCommand(c, subCallback, (char *)"sub", cmd);
+        printf("%s\n", cmd);
     }
  
     event_base_dispatch(base);
