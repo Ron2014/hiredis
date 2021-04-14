@@ -69,6 +69,6 @@ int main (int argc, char **argv) {
     redisAsyncCommand(c, getCallback, (char*)"end-1", "GET key");
     event_base_dispatch(base);
 
-    printf("HELLO WORLD");
+    printf("HELLO WORLD\n");
     return 0;
 }
