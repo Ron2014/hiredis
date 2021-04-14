@@ -48,7 +48,7 @@ int main (int argc, char **argv) {
 
     if (argc <= 1)
     {
-        printf("usage: proc key1 key2 ...\n")
+        printf("usage: proc key1 key2 ...\n");
         return 1;
     }
 
