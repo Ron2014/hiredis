@@ -1,3 +1,8 @@
+/*
+ * @Author: Ron
+ * @LastEditors: Ron
+ * @FilePath: \hiredis\examples\example-libevent.c
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -63,5 +68,7 @@ int main (int argc, char **argv) {
     redisAsyncCommand(c, NULL, NULL, "SET key %b", argv[argc-1], strlen(argv[argc-1]));
     redisAsyncCommand(c, getCallback, (char*)"end-1", "GET key");
     event_base_dispatch(base);
+
+    printf("HELLO WORLD");
     return 0;
 }
